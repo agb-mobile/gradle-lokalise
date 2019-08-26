@@ -1,0 +1,3 @@
+include ':plugin', ':example'
+
+project(':plugin').name = projectName

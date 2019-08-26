@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="lokalise-base.example.main" target="1.8" />
+      <module name="lokalise-base.example.test" target="1.8" />
+      <module name="lokalise-base.plugin.main" target="1.8" />
+      <module name="lokalise-base.plugin.test" target="1.8" />
+      <module name="lokalise.main" target="1.8" />
+      <module name="lokalise.test" target="1.8" />
+      <module name="LokalizeGradlePlugin.example.main" target="1.8" />
+      <module name="LokalizeGradlePlugin.example.test" target="1.8" />
+      <module name="LokalizeGradlePlugin.feature.main" target="1.8" />
+      <module name="LokalizeGradlePlugin.feature.test" target="1.8" />
+      <module name="LokalizeGradlePlugin.lokalise.main" target="1.8" />
+      <module name="LokalizeGradlePlugin.lokalise.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
