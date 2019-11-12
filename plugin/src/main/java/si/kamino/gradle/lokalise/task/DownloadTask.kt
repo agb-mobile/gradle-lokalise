@@ -6,10 +6,14 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import si.kamino.gradle.lokalise.api.LokaliseService
+import si.kamino.gradle.lokalise.api.model.request.ExportFileRequest
 import si.kamino.gradle.lokalise.extension.LokaliseBaseExtensions
 import javax.inject.Inject
 
-abstract class DownloadTask @Inject constructor(private val apiService: LokaliseService, private val baseExtension: LokaliseBaseExtensions) : DefaultTask() {
+abstract class DownloadTask @Inject constructor(
+    private val apiService: LokaliseService,
+    private val baseExtension: LokaliseBaseExtensions
+) : DefaultTask() {
 
     @get:OutputFile
     val outputFile: RegularFileProperty = project.objects.fileProperty()
@@ -21,7 +25,10 @@ abstract class DownloadTask @Inject constructor(private val apiService: Lokalise
     @TaskAction
     fun download() {
         runBlocking {
-            val exportFiles = apiService.exportFiles(baseExtension.token!!, baseExtension.id!!).await()
+            val exportFiles = apiService.exportFiles(
+                baseExtension.token!!, baseExtension.id!!,
+                ExportFileRequest(indentation = baseExtension.indentation)
+            ).await()
             val fileResponse = apiService.downloadFile(exportFiles.bundleUrl).await()
             val byteStream = fileResponse.body()!!.byteStream()
 
