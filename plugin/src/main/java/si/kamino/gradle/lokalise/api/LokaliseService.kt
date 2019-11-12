@@ -11,7 +11,7 @@ import si.kamino.gradle.lokalise.api.model.response.ExportFile
 interface LokaliseService {
 
     @POST("{projectId}/files/download")
-    fun exportFiles(@Header("X-Api-Token") apiKey: String, @Path("projectId") projectId: String, @Body export: ExportFileRequest = ExportFileRequest()): Deferred<ExportFile>
+    fun exportFiles(@Header("X-Api-Token") apiKey: String, @Path("projectId") projectId: String, @Body export: ExportFileRequest): Deferred<ExportFile>
 
     @GET @Streaming
     fun downloadFile(@Url url: String): Deferred<Response<ResponseBody>>
