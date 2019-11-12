@@ -2,7 +2,7 @@
 
 Synchronise Android project with lokalise.co
 
-
+![Lokalise Gradle Plugin](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/si/kamino/gradle/lokalise/maven-metadata.xml.svg?label=gradle)
 
 ## Configuration 
 

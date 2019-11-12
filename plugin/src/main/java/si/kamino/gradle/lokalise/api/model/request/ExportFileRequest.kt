@@ -4,5 +4,5 @@ data class ExportFileRequest(
     val originalFilenames: Boolean = true,
     val format: String = "xml",
     val directoryPrefix: String = "",
-    val indentation: String = "default"
+    val indentation: String
 )
