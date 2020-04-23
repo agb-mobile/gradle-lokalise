@@ -27,7 +27,14 @@ abstract class DownloadTask @Inject constructor(
         runBlocking {
             val exportFiles = apiService.exportFiles(
                 baseExtension.token!!, baseExtension.id!!,
-                ExportFileRequest(indentation = baseExtension.indentation)
+                ExportFileRequest(indentation = baseExtension.indentation,
+                    exportEmptyAs = baseExtension.exportEmptyAs,
+                    pluralFormat = baseExtension.pluralFormat,
+                    includeComments = baseExtension.includeComments,
+                    replaceBreaks = baseExtension.replaceBreaks,
+                    filterData = baseExtension.filterData,
+                    filterLangs = baseExtension.filterLangs
+                )
             ).await()
             val fileResponse = apiService.downloadFile(exportFiles.bundleUrl).await()
             val byteStream = fileResponse.body()!!.byteStream()

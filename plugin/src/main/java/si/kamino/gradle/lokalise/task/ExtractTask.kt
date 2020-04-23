@@ -18,6 +18,7 @@ abstract class ExtractTask @Inject constructor() : DefaultTask() {
 
     @TaskAction
     fun download() {
+        project.delete(outputDirectory.asFile.get())
         project.copy {
             it.from(project.zipTree(inputFile.asFile.get()))
             it.into(outputDirectory.asFile.get())
