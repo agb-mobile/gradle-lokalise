@@ -2,7 +2,6 @@ package si.kamino.gradle.lokalise
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -61,7 +60,6 @@ class LokaliseBasePlugin : Plugin<Project> {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.lokalise.co/api2/projects/")
             .addConverterFactory(converterFactory)
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(client)
             .build()
 
