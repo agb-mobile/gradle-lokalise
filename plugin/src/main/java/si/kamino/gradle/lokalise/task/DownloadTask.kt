@@ -35,8 +35,8 @@ abstract class DownloadTask @Inject constructor(
                     filterData = baseExtension.filterData,
                     filterLangs = baseExtension.filterLangs
                 )
-            ).await()
-            val fileResponse = apiService.downloadFile(exportFiles.bundleUrl).await()
+            )
+            val fileResponse = apiService.downloadFile(exportFiles.bundleUrl)
             val byteStream = fileResponse.body()!!.byteStream()
 
             byteStream.use {
