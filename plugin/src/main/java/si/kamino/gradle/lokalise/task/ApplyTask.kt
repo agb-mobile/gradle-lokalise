@@ -2,30 +2,38 @@ package si.kamino.gradle.lokalise.task
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.tasks.InputFiles
+import org.gradle.api.file.FileSystemOperations
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import javax.inject.Inject
 
-abstract class ApplyTask @Inject constructor() : DefaultTask() {
+abstract class ApplyTask @Inject constructor(
+    private val rootDir: File
+) : DefaultTask() {
 
-    @get:InputFiles
-    val inputDirectory: DirectoryProperty = project.objects.directoryProperty()
+    @get:InputDirectory
+    abstract val inputDirectory: DirectoryProperty
 
     @get:OutputDirectory
-    val outputDirectory: DirectoryProperty = project.objects.directoryProperty()
+    abstract val outputDirectory: DirectoryProperty
+
+    @get:Inject
+    abstract val fs: FileSystemOperations
+
+    init {
+        outputs.upToDateWhen { false }
+    }
 
     @TaskAction
     fun download() {
         val outDir = outputDirectory.get().asFile
-        val prefix = outDir.relativeTo(project.rootDir)
-
-        project.copy {
+        val prefix = outDir.relativeTo(rootDir)
+        fs.copy {
             it.from(File(inputDirectory.asFile.get(), prefix.path))
             it.into(outDir)
         }
-
     }
 
 }

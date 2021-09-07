@@ -4,6 +4,7 @@ plugins {
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish")
     id("maven-publish")
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.20'
 }
 
 group projectGroup
@@ -27,19 +28,23 @@ gradlePlugin {
 repositories {
     google()
     jcenter()
+    maven {
+        url 'https://repo.maven.apache.org/maven2'
+        name 'Maven Central'
+    }
 }
 
 dependencies {
     implementation gradleApi()
-    api 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.31'
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.21'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1-native-mt'
 
-    api 'com.google.code.gson:gson:2.8.6'
-    api 'com.squareup.retrofit2:retrofit:2.9.0'
-    api 'com.squareup.retrofit2:converter-gson:2.9.0'
-    api ("com.squareup.okhttp3:logging-interceptor:3.14.9") {
-        because "Retrofit 2.9.0 depends on okhttp v3.14.9"
-    }
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation ('com.squareup.okhttp3:okhttp:4.9.1')
+    implementation ('com.squareup.okhttp3:logging-interceptor:4.9.1')
 
     testImplementation 'junit:junit:4.13.2'
 }

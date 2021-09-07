@@ -1,22 +1,27 @@
 package si.kamino.gradle.lokalise.task
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
+import retrofit2.Retrofit
 import si.kamino.gradle.lokalise.api.LokaliseService
 import si.kamino.gradle.lokalise.api.model.request.ExportFileRequest
 import si.kamino.gradle.lokalise.extension.LokaliseBaseExtensions
 import javax.inject.Inject
 
 abstract class DownloadTask @Inject constructor(
-    private val apiService: LokaliseService,
     private val baseExtension: LokaliseBaseExtensions
 ) : DefaultTask() {
 
     @get:OutputFile
-    val outputFile: RegularFileProperty = project.objects.fileProperty()
+    abstract val outputFile: RegularFileProperty
 
     init {
         outputs.upToDateWhen { false }
@@ -25,6 +30,7 @@ abstract class DownloadTask @Inject constructor(
     @TaskAction
     fun download() {
         runBlocking {
+            val apiService = initApiService()
             val exportFiles = apiService.exportFiles(
                 baseExtension.token!!, baseExtension.id!!,
                 ExportFileRequest(indentation = baseExtension.indentation,
@@ -45,4 +51,27 @@ abstract class DownloadTask @Inject constructor(
         }
     }
 
+    private fun initApiService(): LokaliseService {
+        val json = Json {
+            ignoreUnknownKeys = true
+            encodeDefaults = true
+        }
+        val contentType = "application/json".toMediaType()
+        val converterFactory = json.asConverterFactory(contentType)
+
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.lokalise.co/api2/projects/")
+            .addConverterFactory(converterFactory)
+            .client(client)
+            .build()
+
+        return retrofit.create(LokaliseService::class.java)
+    }
 }
