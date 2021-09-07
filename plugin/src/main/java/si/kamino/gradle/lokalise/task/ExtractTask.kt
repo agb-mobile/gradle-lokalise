@@ -1,7 +1,9 @@
 package si.kamino.gradle.lokalise.task
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.ArchiveOperations
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
@@ -11,19 +13,29 @@ import javax.inject.Inject
 abstract class ExtractTask @Inject constructor() : DefaultTask() {
 
     @get:InputFile
-    val inputFile: RegularFileProperty = project.objects.fileProperty()
+    abstract val inputFile: RegularFileProperty
 
     @get:OutputDirectory
-    val outputDirectory: DirectoryProperty = project.objects.directoryProperty()
+    abstract val outputDirectory: DirectoryProperty
+
+    @get:Inject
+    abstract val fs: FileSystemOperations
+
+    @get:Inject
+    abstract val zip: ArchiveOperations
+
+    init {
+        outputs.upToDateWhen { false }
+    }
 
     @TaskAction
     fun download() {
-        project.delete(outputDirectory.asFile.get())
-        project.copy {
-            it.from(project.zipTree(inputFile.asFile.get()))
-            it.into(outputDirectory.asFile.get())
+        fs.delete {
+            it.delete(outputDirectory)
         }
-
+        fs.copy {
+            it.from(zip.zipTree(inputFile.asFile.get()))
+            it.into(outputDirectory)
+        }
     }
-
 }

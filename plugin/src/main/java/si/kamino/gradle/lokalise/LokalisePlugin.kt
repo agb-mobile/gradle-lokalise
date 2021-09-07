@@ -17,7 +17,7 @@ class LokalisePlugin : Plugin<Project> {
             project.plugins.apply(LokaliseBasePlugin::class.java)
         }
 
-        val applyTask = project.tasks.register("lokaliseApply", ApplyTask::class.java)
+        val applyTask = project.tasks.register("lokaliseApply", ApplyTask::class.java, project.rootDir)
             .apply {
                 configure {
                     it.inputDirectory.set(basePlugin.extractTask.flatMap { it.outputDirectory })
