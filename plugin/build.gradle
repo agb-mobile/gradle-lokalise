@@ -28,10 +28,7 @@ gradlePlugin {
 repositories {
     google()
     jcenter()
-    maven {
-        url 'https://repo.maven.apache.org/maven2'
-        name 'Maven Central'
-    }
+    mavenCentral()
 }
 
 dependencies {
