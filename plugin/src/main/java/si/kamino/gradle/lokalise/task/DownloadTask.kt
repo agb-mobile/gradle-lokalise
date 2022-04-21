@@ -10,6 +10,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
+import org.gradle.work.DisableCachingByDefault
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import si.kamino.gradle.lokalise.api.LokaliseService
@@ -17,6 +18,7 @@ import si.kamino.gradle.lokalise.api.model.request.ExportFileRequest
 import si.kamino.gradle.lokalise.extension.LokaliseBaseExtensions
 import javax.inject.Inject
 
+@DisableCachingByDefault
 abstract class DownloadTask @Inject constructor(
     private val baseExtension: LokaliseBaseExtensions
 ) : DefaultTask() {

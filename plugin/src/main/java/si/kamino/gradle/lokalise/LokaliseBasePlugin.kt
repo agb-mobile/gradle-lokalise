@@ -27,6 +27,7 @@ class LokaliseBasePlugin : Plugin<Project> {
         extractTask = project.tasks.register("lokaliseExtract", ExtractTask::class.java)
             .apply {
                 configure {
+                    it.dependsOn(downloadTask)
                     it.inputFile.set(downloadTask.flatMap { it.outputFile })
                     it.outputDirectory.set(project.layout.buildDirectory.dir("lokalise/extract"))
                 }
