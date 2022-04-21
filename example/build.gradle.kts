@@ -20,7 +20,7 @@ repositories {
 }
 
 lokalise {
-    id "<project_id>"
-    token "<token>"
-    indentation "4sp"
+    id = "<project_id>"
+    token = "<token>"
+    indentation = "4sp"
 }
