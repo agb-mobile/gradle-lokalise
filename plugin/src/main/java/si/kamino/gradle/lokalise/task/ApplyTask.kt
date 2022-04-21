@@ -6,9 +6,11 @@ import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.gradle.work.DisableCachingByDefault
 import java.io.File
 import javax.inject.Inject
 
+@DisableCachingByDefault
 abstract class ApplyTask @Inject constructor(
     private val rootDir: File
 ) : DefaultTask() {

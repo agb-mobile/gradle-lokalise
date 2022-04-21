@@ -19,9 +19,10 @@ class LokalisePlugin : Plugin<Project> {
 
         val applyTask = project.tasks.register("lokaliseApply", ApplyTask::class.java, project.rootDir)
             .apply {
-                configure {
-                    it.inputDirectory.set(basePlugin.extractTask.flatMap { it.outputDirectory })
-                    it.outputDirectory.set(File(project.projectDir, "src/main/res/"))
+                configure { applyTask ->
+                    applyTask.dependsOn(basePlugin.extractTask)
+                    applyTask.inputDirectory.set(File(basePlugin.extractTask.flatMap { it.outputDirectory }.get().asFile, "values"))
+                    applyTask.outputDirectory.set(File(project.projectDir, "src/main/res/"))
                 }
             }
 
