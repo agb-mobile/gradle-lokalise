@@ -10,7 +10,7 @@ data class ExportFileRequest(
     @SerialName("format")
     val format: String = "xml",
     @SerialName("directory_prefix")
-    val directoryPrefix: String = "",
+    val directoryPrefix: String? = null,
     @SerialName("indentation")
     val indentation: String = "default",
     @SerialName("export_empty_as")

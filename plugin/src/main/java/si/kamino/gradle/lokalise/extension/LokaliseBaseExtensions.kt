@@ -11,5 +11,6 @@ open class LokaliseBaseExtensions {
     var replaceBreaks:Boolean = true
     var filterData : Array<String> = arrayOf("translated, reviewed")
     var filterLangs: Array<String>? = null
+    var directoryPrefix: String? = null
 
 }
